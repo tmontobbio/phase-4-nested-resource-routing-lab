@@ -7,11 +7,14 @@ rescue_from ActiveRecord::RecordNotFound, with: :error
 
 # GET /users/:user_id/items
   def index
-    # if params hash contains (user_id)
+    # if params hash contains (user_id) (we put the id in the url so user_id = whatever id we put)
     if params[:user_id]
+      # find the user with the matching id
       user = User.find(params[:user_id])
+      # render that users items (that also contain that user's id)
       render json: user.items, status: :ok
     else
+      # otherwise work as /items index and show all
       render json: Item.all, include: :user, status: :ok
     end
   end
